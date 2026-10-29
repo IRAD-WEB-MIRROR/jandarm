@@ -1,0 +1,48 @@
+{
+  "notices": [
+    {
+      "date": "2026-10-26",
+      "title": {
+        "en": "Winter equipment on State Route 1 from 1 November",
+        "ir": "1-noyabrdan tartıp 1-mamlekettik joldo kıshkı jabdık",
+        "ru": "Зимнее оборудование на трассе № 1 с 1 ноября"
+      },
+      "text": {
+        "en": "From 1 November vehicles crossing the Fergana Gateway must carry chains or winter tyres. Vehicles without them will be turned back at the Otmek post.",
+        "ir": "1-noyabrdan tartıp Fergana Darbazası arkıluu ötkön unaalarda chınjır je kıshkı döñgölök boluusu kerek. Alar jok unaalar Otmek postunda kayra burulat.",
+        "ru": "С 1 ноября транспорт, следующий через Ферганские ворота, должен иметь цепи или зимние шины. Транспорт без них будет развёрнут на посту Отмек."
+      },
+      "signed": {
+        "en": "Highway Patrol Corps",
+        "ir": "Avtojol patrul korpusu",
+        "ru": "Корпус дорожного патруля"
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "title": {
+        "en": "Register of fuel tankers: annual re-registration",
+        "ir": "Tsisternalar reestri: jıldık kayra kattoo",
+        "ru": "Реестр топливных цистерн: ежегодная перерегистрация"
+      },
+      "text": {
+        "en": "Owners of fuel tankers must re-register their vehicles by 30 November 2026. Unregistered tankers found on the roads will be detained with their load.",
+        "ir": "Küyüüchü may tsisternalarının eeleri unaaların 2026-jıldın 30-noyabrına cheyin kayra kattatıshı kerek. Joldo tabılgan kattalbagan tsisternalar jügü menen karmalat.",
+        "ru": "Владельцы топливных цистерн обязаны перерегистрировать транспорт до 30 ноября 2026 года. Незарегистрированные цистерны, обнаруженные на дорогах, будут задержаны вместе с грузом."
+      }
+    },
+    {
+      "date": "2026-10-05",
+      "title": {
+        "en": "Academy: applications for 2027",
+        "ir": "Akademiya: 2027-jılga arızdar",
+        "ru": "Академия: приём заявлений на 2027 год"
+      },
+      "text": {
+        "en": "The Talas Gendarmerie Academy accepts applications for 2027 until 1 March 2027. See <a href=\"/academy.html\">the Academy</a>.",
+        "ir": "Talas jandarmeriya akademiyası 2027-jılga arızdardı 2027-jıldın 1-martına cheyin kabıl alat. <a href=\"/academy.html\">Akademiyanı</a> karañız.",
+        "ru": "Таласская академия жандармерии принимает заявления на 2027 год до 1 марта 2027 года. См. <a href=\"/academy.html\">академия</a>."
+      }
+    }
+  ]
+}

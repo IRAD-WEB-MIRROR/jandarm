@@ -14,7 +14,10 @@
         var sky = !wet ? tri(w.label) : hi <= 1 ? t("mtSnow") : lo <= 0 ? t("mtMix") : t("mtRain");
         return { hi: hi, lo: lo, snow: wet && lo <= 0, heavy: wet && hi <= 1 && ((w.precip_mm || 0) >= 10 || (w.code || 0) >= 73), txt: sgn(hi) + " / " + sgn(lo) + " · " + sky };
       }
-      el.innerHTML = '<div class="tbl-wrap"><table class="facts mtn"><thead><tr><th>' + esc(t("mtPlace")) + '</th><th class="num">' + esc(t("mtElev")) + "</th><th>" + esc(t("mtToday")) + "</th><th>" + esc(t("mtTom")) + "</th><th>" + esc(t("mtRoad")) + "</th></tr></thead><tbody>" +
+      var se = d.season, gate = "";
+      if (se && se.fergana_gateway) gate = '<div class="gate g-' + esc(se.fergana_gateway) + '"><b>' + esc(t("gateK")) + ":</b> " + esc(t("gate_" + se.fergana_gateway)) +
+        (se.avalanche && se.avalanche.level >= 2 ? " " + esc(t("gateAva", { l: tri(se.avalanche.label) })) : "") + "</div>";
+      el.innerHTML = gate + '<div class="tbl-wrap"><table class="facts mtn"><thead><tr><th>' + esc(t("mtPlace")) + '</th><th class="num">' + esc(t("mtElev")) + "</th><th>" + esc(t("mtToday")) + "</th><th>" + esc(t("mtTom")) + "</th><th>" + esc(t("mtRoad")) + "</th></tr></thead><tbody>" +
         P.map(function (p) {
           var a = day(base, p.e), b = base.forecast && base.forecast[0] ? day(base.forecast[0], p.e) : null, st;
           if (p.road === "none") st = '<span class="muted">' + esc(t("mtNoRoad")) + "</span>";
@@ -22,6 +25,8 @@
           else if (a.heavy && p.e > 2500) st = '<span class="st no">' + esc(t("mtClosure")) + "</span>";
           else if ((a.snow || a.lo <= -2) && p.e > 1800) st = '<span class="st warn">' + esc(t("mtChains")) + "</span>";
           else st = '<span class="st ok">' + esc(t("mtOpen")) + "</span>";
+          var r = d.season && d.season.roads ? d.season.roads.filter(function (x) { return x.id === p.id; })[0] : null;   /* the shared season block decides */
+          if (r) st = '<span class="st ' + ({ open: "ok", chains: "warn" }[r.status] || "no") + '">' + esc(t({ open: "mtOpen", chains: "mtChains", closed: "mtShut", winter: "mtSeason" }[r.status] || "mtOpen")) + "</span>";
           return "<tr><td><b>" + esc(tri(p.n)) + '</b><br><span class="small muted">' + esc(tri(p.r)) + '</span></td><td class="num nw">' + esc(t("mtM", { v: p.e.toLocaleString("en").replace(",", LANG === "en" ? "," : " ") })) +
             "</td><td data-l=\"" + esc(t("mtToday")) + "\">" + esc(a.txt) + "</td><td data-l=\"" + esc(t("mtTom")) + "\">" + (b ? esc(b.txt) : "") + "</td><td>" + st + "</td></tr>";
         }).join("") + "</tbody></table></div>";

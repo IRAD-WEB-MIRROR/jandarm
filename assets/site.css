@@ -444,6 +444,9 @@ a { color: var(--crimson); }
 .st { display: inline-block; font-size: .8rem; font-weight: 600; padding: 2px 8px; white-space: nowrap; }
 .st.ok { background: #e3f1e7; color: #1e5a33; }
 .st.no { background: #f6e1e1; color: #8a1c1c; }
+.gate { margin: 0 0 10px; padding: 8px 10px; border: 1px solid #c9b77e; border-left-width: 6px; background: #fbf6e6; }
+.gate.g-open { border-color: #9fcb98; background: #eef7ec; }
+.gate.g-closed { border-color: #c0392b; background: #fbe4e1; color: #6e130a; font-weight: bold; }
 .st.warn { background: #fbf0d9; color: #7a5208; }
 .calc { background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--crimson); padding: 16px 18px; margin: 16px 0; }
 .calc label { display: block; font-size: .85rem; font-weight: 600; margin: 10px 0 4px; }

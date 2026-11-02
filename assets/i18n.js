@@ -7,7 +7,7 @@ window.SITE_I18N = {
     "en": {
       "skip": "Skip to content",
       "langLabel": "Language",
-      "embAlt": "State Emblem of Irad",
+      "embAlt": "Badge of the Republican Gendarmerie",
       "navLabel": "Main menu",
       "menu": "Menu",
       "footGov": "Government of the ISEZ",
@@ -119,7 +119,7 @@ window.SITE_I18N = {
     "ir": {
       "skip": "Mazmunga ötüü",
       "langLabel": "Til",
-      "embAlt": "Iraddın Mamlekettik gerbi",
+      "embAlt": "Respublikalık jandarmeriyanın belgisi",
       "navLabel": "Negizgi menyu",
       "menu": "Menyu",
       "footGov": "IAEZ Ökmötü",
@@ -231,7 +231,7 @@ window.SITE_I18N = {
     "ru": {
       "skip": "Перейти к содержанию",
       "langLabel": "Язык",
-      "embAlt": "Государственный герб Ирада",
+      "embAlt": "Знак Республиканской жандармерии",
       "navLabel": "Главное меню",
       "menu": "Меню",
       "footGov": "Правительство ОЭЗИ",

@@ -178,7 +178,7 @@
    "kit_phone": "Tel.",
    "kit_nav": "Maalımat",
    "kh1": "1-noyabrdan tartıp 1-mamlekettik joldo kıshkı jabdıktar",
-   "kh2": "Küyüüchü may tashuuchu mashineler reestri: jıl sayınkı kayra kattoo",
+   "kh2": "Küyüüchü may tashuuchu mashinalar reestri: jıl sayınkı kayra kattoo",
    "kh3": "Akademiya: 2027-jılga arızdar"
   },
   "ru": {

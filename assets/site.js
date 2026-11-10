@@ -3,7 +3,16 @@
   "use strict";
   var SITE = {"store": "jd_lang", "nav": [["home", "/"], ["service", "/service.html"], ["line", "/line.html"], ["roads", "/roads.html"], ["academy", "/academy.html"]], "navAlias": {}, "links": [["gov", "https://iradgov.org/"], ["eirad", "https://e-irad.org/"], ["bank", "https://bank.iradgov.org/"], ["arch", "https://archives.iradgov.org/"], ["post", "https://post.iradgov.org/"], ["elections", "https://elections.iradgov.org/"], ["court", "https://court.iradgov.org/"], ["stats", "https://stats.iradgov.org/"], ["mejlis", "https://mejlis.iradgov.org/"], ["gidromet", "https://gidromet.iradgov.org/"], ["customs", "https://customs.iradgov.org/"], ["railways", "https://railways.iradgov.org/"], ["avia", "https://avia.iradgov.org/"], ["loto", "https://loto.iradgov.org/"], ["tender", "https://tender.e-irad.org/"], ["talas", "https://talas.iradgov.org/"], ["nurzhan", "https://nurzhan.iradgov.org/"], ["iyikjanyl", "https://iyikjanyl.iradgov.org/"], ["heritage", "https://heritage.iradgov.org/"]], "mastBtn": "/line.html"};
   var EXTRA = function () {
+    /* road incidents in today's numbers (a pass closed by snow), dated, above the board; prerendered weekly */
+    function roadIncidents(d) {
+      var el = $("#incRoad"); if (!el) return;
+      var l = (d.incidents && d.incidents.list || []).filter(function (x) { return x.kind === "pass" && x.state !== "ended" && (!x.end || Date.parse(x.end) > Date.now()); });
+      el.innerHTML = l.map(function (x) {
+        return '<div class="gate g-closed"><b>' + esc(fmtDate(d.date)) + ". " + esc(tri(x.title)) + ":</b> " + esc(tri(x.lines && x.lines.roads || x.notice)) + "</div>";
+      }).join("") || '<p class="small muted">' + esc(fmtDate(d.date)) + ": " + esc(t("incNone")) + "</p>";
+    }
     function mountains(d) {
+      roadIncidents(d);
       var el = $("#mtnNow"); if (!el) return;
       var P = [{"id": "karasuu", "e": 1390, "road": "open", "n": {"en": "Kara-Suu Canyon mouth", "ir": "Kara-Suu kapchıgayının oozu", "ru": "Устье каньона Кара-Суу"}, "r": {"en": "Sary-Bulak road", "ir": "Sarı-Bulak jolu", "ru": "Дорога на Сары-Булак"}}, {"id": "aksay", "e": 2000, "road": "open", "n": {"en": "Aksay post", "ir": "Aksay postu", "ru": "Пост Аксай"}, "r": {"en": "Line crossing", "ir": "Liniya ötkölü", "ru": "Пункт пропуска на линии"}}, {"id": "suusamyr", "e": 2660, "road": "season", "n": {"en": "Suusamyr crossing", "ir": "Suusamır ötkölü", "ru": "Пункт пропуска Суусамыр"}, "r": {"en": "Karakol road, line crossing", "ir": "Karakol jolu, liniya ötkölü", "ru": "Каракольская дорога, пункт пропуска"}}, {"id": "otmek", "e": 3175, "road": "open", "n": {"en": "Otmek tunnel", "ir": "Otmek tunneli", "ru": "Отмекский тоннель"}, "r": {"en": "State Route 1, portals", "ir": "1-mamlekettik jol, portaldar", "ru": "Трасса № 1, порталы"}}, {"id": "alabel", "e": 3184, "road": "open", "n": {"en": "Fergana Gateway (Ala-Bel)", "ir": "Fergana Darbazası (Ala-Bel)", "ru": "Ферганские ворота (Ала-Бель)"}, "r": {"en": "State Route 1, summit post", "ir": "1-mamlekettik jol, ashuudagı post", "ru": "Трасса № 1, пост на перевале"}}, {"id": "otmekpass", "e": 3330, "road": "summer", "n": {"en": "Otmek Pass, old road", "ir": "Otmek ashuusu, eski jol", "ru": "Перевал Отмек, старая дорога"}, "r": {"en": "Summer bypass", "ir": "Jaykı aylanma jol", "ru": "Летний объезд"}}];
       var base = d.weather.filter(function (w) { return w.id === "talas"; })[0]; if (!base) return;
@@ -14,8 +23,13 @@
         var sky = !wet ? tri(w.label) : hi <= 1 ? t("mtSnow") : lo <= 0 ? t("mtMix") : t("mtRain");
         return { hi: hi, lo: lo, snow: wet && lo <= 0, heavy: wet && hi <= 1 && ((w.precip_mm || 0) >= 10 || (w.code || 0) >= 73), txt: sgn(hi) + " / " + sgn(lo) + " · " + sky };
       }
-      var se = d.season, gate = "";
-      if (se && se.fergana_gateway) gate = '<div class="gate g-' + esc(se.fergana_gateway) + '"><b>' + esc(t("gateK")) + ":</b> " + esc(t("gate_" + se.fergana_gateway)) +
+      var se = d.season, gate = "", now = Date.now();
+      /* a pass closure in today's incidents (the shared list): the Highway Patrol's own line, and its roads shut while it lasts */
+      var pi = (d.incidents && d.incidents.list || []).filter(function (x) {
+        return x.kind === "pass" && Date.parse(x.start) <= now && (!x.end || now < Date.parse(x.end));
+      })[0];
+      if (pi) gate = '<div class="gate g-closed"><b>' + esc(t("gateK")) + ":</b> " + esc(t("gate_closed")) + "</div>";   /* the incident's own line is in #incRoad */
+      else if (se && se.fergana_gateway) gate = '<div class="gate g-' + esc(se.fergana_gateway) + '"><b>' + esc(t("gateK")) + ":</b> " + esc(t("gate_" + se.fergana_gateway)) +
         (se.avalanche && se.avalanche.level >= 2 ? " " + esc(t("gateAva", { l: tri(se.avalanche.label) })) : "") + "</div>";
       el.innerHTML = gate + '<div class="tbl-wrap"><table class="facts mtn"><thead><tr><th>' + esc(t("mtPlace")) + '</th><th class="num">' + esc(t("mtElev")) + "</th><th>" + esc(t("mtToday")) + "</th><th>" + esc(t("mtTom")) + "</th><th>" + esc(t("mtRoad")) + "</th></tr></thead><tbody>" +
         P.map(function (p) {
@@ -27,6 +41,7 @@
           else st = '<span class="st ok">' + esc(t("mtOpen")) + "</span>";
           var r = d.season && d.season.roads ? d.season.roads.filter(function (x) { return x.id === p.id; })[0] : null;   /* the shared season block decides */
           if (r) st = '<span class="st ' + ({ open: "ok", chains: "warn" }[r.status] || "no") + '">' + esc(t({ open: "mtOpen", chains: "mtChains", closed: "mtShut", winter: "mtSeason" }[r.status] || "mtOpen")) + "</span>";
+          if (pi && (pi.roads || []).indexOf(p.id) >= 0 && !(r && r.status === "winter")) st = '<span class="st no">' + esc(t("mtShut")) + "</span>";
           return "<tr><td><b>" + esc(tri(p.n)) + '</b><br><span class="small muted">' + esc(tri(p.r)) + '</span></td><td class="num nw">' + esc(t("mtM", { v: p.e.toLocaleString("en").replace(",", LANG === "en" ? "," : " ") })) +
             "</td><td data-l=\"" + esc(t("mtToday")) + "\">" + esc(a.txt) + "</td><td data-l=\"" + esc(t("mtTom")) + "\">" + (b ? esc(b.txt) : "") + "</td><td>" + st + "</td></tr>";
         }).join("") + "</tbody></table></div>";
